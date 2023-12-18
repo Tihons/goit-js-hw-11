@@ -1,4 +1,4 @@
-// розмітка картки зображення
+
 export function createMarkup(arr) {
     return arr
       .map(
