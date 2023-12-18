@@ -1,40 +1,18 @@
+import SimpleLightbox from 'simplelightbox';
+import SimpleLightbox from 'simplelightbox/dist/simple-lightbox.esm';
+import { els } from './index.js';
 
-export function createMarkup(arr) {
-    return arr
-      .map(
-        ({
-          webformatURL,
-          largeImageURL,
-          tags,
-          likes,
-          views,
-          comments,
-          downloads,
-        }) => `
-        <div class="photo-card">
-        <a class="gallery-link" href="${largeImageURL}">
-          <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" />
-        </a>
-        <div class="info">
-          <p class="info-item">
-            <b>Likes:</b>
-            ${likes}
-          </p>
-          <p class="info-item">
-            <b>Views:</b>
-            ${views}
-          </p>
-          <p class="info-item">
-            <b>Comments:</b>
-            ${comments}
-          </p>
-          <p class="info-item">
-            <b>Downloads:</b>
-            ${downloads}
-          </p>
-        </div>
-      </div>
-      `
-      )
-      .join('');
-  }
+export function createImageCard(images) {
+  const card = images.map(image => {
+    return `<div class="photo-card"><a class="gallery_link" href="${image.largeImageURL}"><img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+      </a><div class="info"><p class="info-item"><b>Likes: ${image.likes}</b></p><p class="info-item"><b>Views: ${image.views}</b></p><p class="info-item"><b>Comments: ${image.comments}</b></p><p class="info-item"><b>Downloads: ${image.downloads}</b></p></div></div>`;
+  });
+
+  els.gallery.insertAdjacentHTML('beforeend', card.join(''));
+
+  const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+    captionPosition: 'bottom',
+  });
+}
